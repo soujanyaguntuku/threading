@@ -2,14 +2,19 @@ package com.soujanya.threads.simplethreading;
 
 
 import java.time.Instant;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class MainClass{
   public static int count = 0;
+
   public static void main(String args[]) throws InterruptedException {
-    IncCountThread thread1 = new IncCountThread();
-    IncCountThread thread2 = new IncCountThread();
-    IncCountThread thread3 = new IncCountThread();
-    IncCountThread thread4 = new IncCountThread();
+    CountDownLatch countDownLatch = new CountDownLatch(4);
+    IncCountThread thread1 = new IncCountThread(countDownLatch);
+    IncCountThread thread2 = new IncCountThread(countDownLatch);
+    IncCountThread thread3 = new IncCountThread(countDownLatch);
+    IncCountThread thread4 = new IncCountThread(countDownLatch);
 
     Instant before = Instant.now();
 
@@ -17,6 +22,7 @@ public class MainClass{
     thread2.start();
     thread3.start();
     thread4.start();
+    countDownLatch.await();
     Instant after = Instant.now();
 
 //    thread1.join();
@@ -29,12 +35,17 @@ public class MainClass{
   }
 }
 class IncCountThread extends Thread{
+  private CountDownLatch countDownLatch;
+  public IncCountThread(CountDownLatch countDownLatch) {
+    this.countDownLatch = countDownLatch;
+  }
 
-    @Override
+  @Override
     public void run() {
       for(int i = 0; i < 1000; i++){
-        MainClass.count ++;
+          MainClass.count++;
       }
+    countDownLatch.countDown();
     }
   }
 
