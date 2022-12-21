@@ -3,13 +3,11 @@ package com.soujanya.threads.simplethreading;
 
 import java.time.Instant;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class MainClass{
   public static int count = 0;
 
-  public static void main(String args[]) throws InterruptedException {
+  public static void main(String[] args) throws InterruptedException {
     CountDownLatch countDownLatch = new CountDownLatch(4);
     IncCountThread thread1 = new IncCountThread(countDownLatch);
     IncCountThread thread2 = new IncCountThread(countDownLatch);
@@ -22,6 +20,7 @@ public class MainClass{
     thread2.start();
     thread3.start();
     thread4.start();
+
     countDownLatch.await();
     Instant after = Instant.now();
 
@@ -35,7 +34,7 @@ public class MainClass{
   }
 }
 class IncCountThread extends Thread{
-  private CountDownLatch countDownLatch;
+  private final CountDownLatch countDownLatch;
   public IncCountThread(CountDownLatch countDownLatch) {
     this.countDownLatch = countDownLatch;
   }
