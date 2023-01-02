@@ -41,7 +41,7 @@ class IncCountThread extends Thread{
 
   @Override
     public void run() {
-      for(int i = 0; i < 1000; i++){
+      for(int i = 0; i < 1000000; i++){
           MainClass.count++;
       }
     countDownLatch.countDown();

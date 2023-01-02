@@ -1,2 +1,5 @@
-package looseCoupling;public class Vehicle {
+package looseCoupling;
+
+public interface Vehicle {
+void move();
 }
